@@ -80,12 +80,7 @@ public class Lexico {
                         lexema.append(c);
                         estado = 2;
                     }
-                    else if(c == ')' || 
-                            c == '(' ||
-                            c == '{' ||
-                            c == '}' ||
-                            c == ',' ||
-                            c == ';'){
+                    else if(c == ')' || c == '(' || c == '{' || c == '}' || c == ',' || c == ';'){
                         lexema.append(c);
                         estado = 5;
                     }else if(c == '$'){
