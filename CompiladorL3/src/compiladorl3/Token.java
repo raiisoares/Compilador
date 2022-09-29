@@ -16,8 +16,9 @@ public class Token {
     public static int TIPO_IDENTIFICADOR = 3;
     public static int TIPO_OPERADOR_RELACIONAL = 4;
     public static int TIPO_OPERADOR_ARITMETICO = 5;
-    public static int TIPO_CARACTER_ESPECIAL = 6;
+    public static int TIPO_OPERADOR_ATRIBUCAO = 6;
     public static int TIPO_PALAVRA_RESERVADA = 7;
+    public static int TIPO_CARACTER_ESPECIAL= 8;
     public static int TIPO_FIM_CODIGO = 99;
     
     private int tipo; //tipo do token
@@ -53,9 +54,11 @@ public class Token {
             case 5:
                 return this.lexema + " - OPERADOR_ARITMETICO";
             case 6:
-                return this.lexema + " - CARACTER_ESPECIAL";
+                return this.lexema + " - OPERADOR_ATRIBUIÇÃO";
             case 7:
                 return this.lexema + " - PALAVRA_RESERVADA";
+            case 8:
+                return this.lexema + " - CARACTER_ESPECIAL";
             case 99:
                 return this.lexema + " - FIM_CODIGO";    
         }
