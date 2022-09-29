@@ -167,12 +167,17 @@ public class Lexico {
                 }
                 this.back();
                 return new Token(lexema.toString(), Token.TIPO_OPERADOR_ATRIBUCAO);
+
                 case 7:
                     this.back();
                     return new Token(lexema.toString(), Token.TIPO_OPERADOR_ARITMETICO);
                 case 8:
-                if(c == '='){
-                    lexema.append(c);
+
+                    if(c == '='){
+                        lexema.append(c);
+                        return new Token(lexema.toString(), Token.TIPO_OPERADOR_RELACIONAL);
+                    }
+                    this.back();
                     return new Token(lexema.toString(), Token.TIPO_OPERADOR_RELACIONAL);
                 }
                 this.back();
