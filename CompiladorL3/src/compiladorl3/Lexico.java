@@ -38,12 +38,6 @@ public class Lexico {
         return this.conteudo[this.indiceConteudo++];
     }
     
-    private char whatNextChar(){
-        char x=nextChar();
-        this.back();
-        return x;
-    }
-
     //Verifica existe próximo char ou chegou ao final do código fonte
     private boolean hasNextChar(){
         return indiceConteudo < this.conteudo.length;
@@ -118,7 +112,7 @@ public class Lexico {
                         estado = 1;                        
                     }else{
                         this.back();
-                        
+
                         if (lexema.toString().equals("if")    ||
                             lexema.toString().equals("int")   ||
                             lexema.toString().equals("float") ||
@@ -165,13 +159,12 @@ public class Lexico {
                     this.back();
                     return new Token(lexema.toString(), Token.TIPO_CARACTER_ESPECIAL); 
                 case 6:
-                if(c == '='){
-                    lexema.append(c);
-                    return new Token(lexema.toString(), Token.TIPO_OPERADOR_RELACIONAL);
-                }
-                this.back();
-                return new Token(lexema.toString(), Token.TIPO_OPERADOR_ATRIBUCAO);
-
+                    if(c == '='){
+                        lexema.append(c);
+                        return new Token(lexema.toString(), Token.TIPO_OPERADOR_RELACIONAL);
+                    }
+                    this.back();
+                    return new Token(lexema.toString(), Token.TIPO_OPERADOR_ATRIBUCAO);
                 case 7:
                     this.back();
                     return new Token(lexema.toString(), Token.TIPO_OPERADOR_ARITMETICO);
@@ -194,12 +187,9 @@ public class Lexico {
                         return new Token(lexema.toString(), Token.TIPO_OPERADOR_RELACIONAL);
                     }
                 case 99:
-                    return new Token(lexema.toString(), Token.TIPO_FIM_CODIGO);
-            } 
-            
-        }
-                    
+                    return new Token(lexema.toString(), Token.TIPO_FIM_CODIGO); 
+            }
+        }                
         return token;
     }   
 }
-
