@@ -99,12 +99,12 @@ public class Lexico {
                     }else{
                         this.back();
 
-                        if (lexema.toString().equalsIgnoreCase("if") ||
-                            lexema.toString().equalsIgnoreCase("int") ||
+                        if (lexema.toString().equalsIgnoreCase("if")    ||
+                            lexema.toString().equalsIgnoreCase("int")   ||
                             lexema.toString().equalsIgnoreCase("float") ||
-                            lexema.toString().equalsIgnoreCase("char") ||
+                            lexema.toString().equalsIgnoreCase("char")  ||
                             lexema.toString().equalsIgnoreCase("while") ||
-                            lexema.toString().equalsIgnoreCase("main") ||
+                            lexema.toString().equalsIgnoreCase("main")  ||
                             lexema.toString().equalsIgnoreCase("else") ) {
                             return new Token(lexema.toString(), Token.TIPO_PALAVRA_RESERVADA);
                         }  else {
