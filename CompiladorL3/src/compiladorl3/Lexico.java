@@ -92,6 +92,9 @@ public class Lexico {
                     }else if(c=='<'){
                         lexema.append(c);
                         estado=9;
+                    }else if(c=='\''){
+                        lexema.append(c);
+                        estado=10;
                     }
                     else if(c == '+' || c == '-' || c == '*' || c == '/' || c == '%'){
                         lexema.append(c);
@@ -176,15 +179,25 @@ public class Lexico {
                     this.back();
                     return new Token(lexema.toString(), Token.TIPO_OPERADOR_RELACIONAL);
                 case 9:
-                    if(c== '>'){
-                        lexema.append(c);
-                        return new Token(lexema.toString(), Token.TIPO_OPERADOR_RELACIONAL);
-                    }else if(c=='='){
+                    if(c== '>'|c=='='){
                         lexema.append(c);
                         return new Token(lexema.toString(), Token.TIPO_OPERADOR_RELACIONAL);
                     }else{
                         this.back();
                         return new Token(lexema.toString(), Token.TIPO_OPERADOR_RELACIONAL);
+                    }
+                case 10:
+                    if(this.isDigito(c)|this.isLetra(c)){
+                        lexema.append(c);
+                        estado = 11;
+                    }
+                    break;
+                case 11:
+                    if(c=='\''){
+                        lexema.append(c);
+                        return new Token(lexema.toString(), Token.TIPO_CHAR);
+                    }else{
+                        throw new RuntimeException("Erro: char mal formado \"" + lexema.toString() + "\"");
                     }
                 case 99:
                     return new Token(lexema.toString(), Token.TIPO_FIM_CODIGO); 
