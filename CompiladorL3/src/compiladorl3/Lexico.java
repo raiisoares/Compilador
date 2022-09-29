@@ -98,22 +98,16 @@ public class Lexico {
                         estado = 1;                        
                     }else{
                         this.back();
-                        
-                        if (lexema.toString().equalsIgnoreCase("if")) {
+
+                        if (lexema.toString().equalsIgnoreCase("if") ||
+                            lexema.toString().equalsIgnoreCase("int") ||
+                            lexema.toString().equalsIgnoreCase("float") ||
+                            lexema.toString().equalsIgnoreCase("char") ||
+                            lexema.toString().equalsIgnoreCase("while") ||
+                            lexema.toString().equalsIgnoreCase("main") ||
+                            lexema.toString().equalsIgnoreCase("else") ) {
                             return new Token(lexema.toString(), Token.TIPO_PALAVRA_RESERVADA);
-                        } else if (lexema.toString().equalsIgnoreCase("int")) {
-                            return new Token(lexema.toString(), Token.TIPO_PALAVRA_RESERVADA);
-                        } else if (lexema.toString().equalsIgnoreCase("float")) {
-                            return new Token(lexema.toString(), Token.TIPO_PALAVRA_RESERVADA);
-                        } else if (lexema.toString().equalsIgnoreCase("char")) {
-                            return new Token(lexema.toString(), Token.TIPO_PALAVRA_RESERVADA);
-                        } else if (lexema.toString().equalsIgnoreCase("while")) {
-                            return new Token(lexema.toString(), Token.TIPO_PALAVRA_RESERVADA);
-                        } else if (lexema.toString().equalsIgnoreCase("main")) {
-                            return new Token(lexema.toString(), Token.TIPO_PALAVRA_RESERVADA);
-                        } else if (lexema.toString().equalsIgnoreCase("else")) {
-                            return new Token(lexema.toString(), Token.TIPO_PALAVRA_RESERVADA);
-                        } else {
+                        }  else {
                             return new Token(lexema.toString(), Token.TIPO_IDENTIFICADOR); 
                         }                           
                     }
