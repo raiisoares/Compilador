@@ -72,7 +72,7 @@ public class Lexico {
                     if(c == ' ' || c == '\t' || c == '\n' || c == '\r' ){ //caracteres de espaço em branco ASCII tradicionais 
                         estado = 0;
                     }
-                    else if(this.isLetra(c) || c == '_'){
+                    else if(this.isLetra(c)){
                         lexema.append(c);
                         estado = 1;
                     }
@@ -83,7 +83,14 @@ public class Lexico {
                     else if(c == ')' || c == '(' || c == '{' || c == '}' || c == ',' || c == ';'){
                         lexema.append(c);
                         estado = 5;
-                    }else if(c == '$'){
+                    }else if(c=='='|c == '>' || c == '<'){
+                        lexema.append(c);
+                        estado=6;
+                    }else if(c == '+' || c == '-' || c == '*' || c == '/' || c == '%'){
+                        lexema.append(c);
+                        estado = 7;
+                    }
+                    else if(c == '$'){
                         lexema.append(c);
                         estado = 99;
                         this.back();
@@ -93,19 +100,19 @@ public class Lexico {
                     }
                     break;
                 case 1:
-                    if(this.isLetra(c) || this.isDigito(c) || c == '_'){
+                    if(this.isLetra(c) || this.isDigito(c)){
                         lexema.append(c);
                         estado = 1;                        
                     }else{
                         this.back();
 
-                        if (lexema.toString().equalsIgnoreCase("if")    ||
-                            lexema.toString().equalsIgnoreCase("int")   ||
-                            lexema.toString().equalsIgnoreCase("float") ||
-                            lexema.toString().equalsIgnoreCase("char")  ||
-                            lexema.toString().equalsIgnoreCase("while") ||
-                            lexema.toString().equalsIgnoreCase("main")  ||
-                            lexema.toString().equalsIgnoreCase("else") ) {
+                        if (lexema.toString().equals("if")    ||
+                            lexema.toString().equals("int")   ||
+                            lexema.toString().equals("float") ||
+                            lexema.toString().equals("char")  ||
+                            lexema.toString().equals("while") ||
+                            lexema.toString().equals("main")  ||
+                            lexema.toString().equals("else") ) {
                             return new Token(lexema.toString(), Token.TIPO_PALAVRA_RESERVADA);
                         }  else {
                             return new Token(lexema.toString(), Token.TIPO_IDENTIFICADOR); 
@@ -144,6 +151,19 @@ public class Lexico {
                 case 5:
                     this.back();
                     return new Token(lexema.toString(), Token.TIPO_CARACTER_ESPECIAL); 
+                case 6:
+                    if(c=='='){
+                        lexema.append(c);
+                        estado=6;
+                    }
+                    this.back();
+                    return new Token(lexema.toString(), Token.TIPO_OPERADOR_ATRIBUCAO);
+                case 7:
+                    this.back();
+                    return new Token(lexema.toString(), Token.TIPO_OPERADOR_ARITMETICO);
+                case 8:
+                    this.back();
+                    return new Token(lexema.toString(), Token.TIPO_OPERADOR_RELACIONAL);
                 case 99:
                     return new Token(lexema.toString(), Token.TIPO_FIM_CODIGO); 
             }
