@@ -98,7 +98,24 @@ public class Lexico {
                         estado = 1;                        
                     }else{
                         this.back();
-                        return new Token(lexema.toString(), Token.TIPO_IDENTIFICADOR);                        
+                        
+                        if (lexema.toString().equalsIgnoreCase("if")) {
+                            return new Token(lexema.toString(), Token.TIPO_PALAVRA_RESERVADA);
+                        } else if (lexema.toString().equalsIgnoreCase("int")) {
+                            return new Token(lexema.toString(), Token.TIPO_PALAVRA_RESERVADA);
+                        } else if (lexema.toString().equalsIgnoreCase("float")) {
+                            return new Token(lexema.toString(), Token.TIPO_PALAVRA_RESERVADA);
+                        } else if (lexema.toString().equalsIgnoreCase("char")) {
+                            return new Token(lexema.toString(), Token.TIPO_PALAVRA_RESERVADA);
+                        } else if (lexema.toString().equalsIgnoreCase("while")) {
+                            return new Token(lexema.toString(), Token.TIPO_PALAVRA_RESERVADA);
+                        } else if (lexema.toString().equalsIgnoreCase("main")) {
+                            return new Token(lexema.toString(), Token.TIPO_PALAVRA_RESERVADA);
+                        } else if (lexema.toString().equalsIgnoreCase("else")) {
+                            return new Token(lexema.toString(), Token.TIPO_PALAVRA_RESERVADA);
+                        } else {
+                            return new Token(lexema.toString(), Token.TIPO_IDENTIFICADOR); 
+                        }                           
                     }
                     break;
                 case 2:
