@@ -1,7 +1,16 @@
 main (){
-    if(a < 10) {
-       a = b + 43;
-       }
+    int a;
+    float b;
+    while(a>b) {
+        a = a + 1;
+    }
+
+    if(b>a){
+      a = 10 + 1;
+    } else {
+         a = 20 + 1;
+    }
+    char b;
 }
 $
 

@@ -36,17 +36,20 @@ public class Sintatico {
         if(!token.getLexema().equals("{")){
             throw new RuntimeException("Oxe, tava esperando um \"{\" pertinho de " + this.token.getLexema());
         }
-        this.token = this.lexico.nextToken();
-
-        if(token.getLexema().equals("int") || token.getLexema().equals("float") || token.getLexema().equals("char"))
-            this.declaracaoVar();
-        else if (token.getLexema().equals("while") || token.getLexema().equals("if") || this.token.getTipo() == Token.TIPO_IDENTIFICADOR )
-            this.comandos();
 
         this.token = this.lexico.nextToken();
+        this.comandoGeral();
+
         if(!token.getLexema().equals("}")){
             throw new RuntimeException("Oxe, tava esperando um \"}\" pertinho de " + this.token.getLexema());
         }
+    }
+
+    private void comandoGeral(){
+        if(token.getLexema().equals("int") || token.getLexema().equals("float") || token.getLexema().equals("char"))
+            this.declaracaoVar();
+        else
+            this.comandos();
     }
 
     private void declaracaoVar() {
@@ -59,9 +62,9 @@ public class Sintatico {
         if (!this.token.getLexema().equals(";"))
             throw new RuntimeException("Tu vacilou na declaração de variável pertinho de " + this.token.getLexema());
 
+        this.token = this.lexico.nextToken();
+        this.comandoGeral();
     }
-
-
     private void comandos(){
         if (token.getLexema().equals("while"))
             this.iteracao();
@@ -70,11 +73,6 @@ public class Sintatico {
         }
         else if(token.getLexema().equals("if")) {
             this.condicional();
-//            this.token = this.lexico.nextToken();
-//            if (token.getLexema().equals("else")) {
-//                this.token = this.lexico.nextToken();
-//                this.bloco();
-//            }
         }
     }
 
@@ -98,6 +96,11 @@ public class Sintatico {
         if(!token.getLexema().equals(")"))
             throw new RuntimeException("Fecha o parênteses do while cabra");
 
+        this.token = this.lexico.nextToken();
+        this.bloco();
+
+        this.token = this.lexico.nextToken();
+        this.comandoGeral();
     }
 
     private void condicional() {
@@ -112,12 +115,26 @@ public class Sintatico {
 
         this.token = this.lexico.nextToken();
         this.bloco();
+
+        this.token = this.lexico.nextToken();
+        if (token.getLexema().equals("else")) {
+            this.token = this.lexico.nextToken();
+            this.bloco();
+            this.token = this.lexico.nextToken();
+            this.comandoGeral();
+        } else {
+        this.comandoGeral();
+    }
+
     }
 
     private void atribuicao(){
         this.expArit();
         if (!this.token.getLexema().equals(";"))
             throw new RuntimeException("Tu vacilou na atribuição pertinho de " + this.token.getLexema());
+
+        this.token = this.lexico.nextToken();
+        this.comandoGeral();
     }
 
     private void expArit(){
