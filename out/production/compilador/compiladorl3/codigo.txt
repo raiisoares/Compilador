@@ -12,9 +12,15 @@ main (){
      } else {
         a = 20 + 1;
      }
-       char b;
-     func {
 
+     char b;
+
+     func {
+         if(b>a){
+               a = 10 + 1;
+             } else {
+                a = 20 + 1;
+             }
      }
 }
 $

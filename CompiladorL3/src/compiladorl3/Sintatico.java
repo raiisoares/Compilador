@@ -83,9 +83,11 @@ public class Sintatico {
         this.token = this.lexico.nextToken();
         if(this.token.getTipo() == Token.TIPO_OPERADOR_ATRIBUCAO)
             this.atribuicao();
-        else if (token.getLexema().equals("{"))
+        else if (token.getLexema().equals("{")){
             this.bloco();
-        else
+            this.token = this.lexico.nextToken();
+            this.comandoGeral();
+        } else
             throw new RuntimeException("Ta faltando um comando pertinho de " + this.token.getLexema());
     }
 
@@ -126,8 +128,8 @@ public class Sintatico {
             this.token = this.lexico.nextToken();
             this.comandoGeral();
         } else {
-        this.comandoGeral();
-    }
+            this.comandoGeral();
+        }
     }
 
     private void atribuicao(){
