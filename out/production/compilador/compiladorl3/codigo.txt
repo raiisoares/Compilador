@@ -1,16 +1,21 @@
 main (){
-    int a;
+    int a = 1;
+    a = a + 1;
     float b;
+
     while(a>b) {
-        a = a + 1;
+       a = a + 1;
     }
 
     if(b>a){
-      a = 10 + 1;
-    } else {
-         a = 20 + 1;
-    }
-    char b;
+       a = 10 + 1;
+     } else {
+        a = 20 + 1;
+     }
+       char b;
+     func {
+
+     }
 }
 $
 

@@ -59,11 +59,14 @@ public class Sintatico {
         }
 
         this.token = this.lexico.nextToken();
-        if (!this.token.getLexema().equals(";"))
+        if (!this.token.getLexema().equals(";") && this.token.getTipo() != Token.TIPO_OPERADOR_ATRIBUCAO)
             throw new RuntimeException("Tu vacilou na declaração de variável pertinho de " + this.token.getLexema());
-
-        this.token = this.lexico.nextToken();
-        this.comandoGeral();
+        else if (this.token.getTipo() == Token.TIPO_OPERADOR_ATRIBUCAO) {
+            this.atribuicao();
+        } else {
+            this.token = this.lexico.nextToken();
+            this.comandoGeral();
+        }
     }
     private void comandos(){
         if (token.getLexema().equals("while"))
@@ -125,7 +128,6 @@ public class Sintatico {
         } else {
         this.comandoGeral();
     }
-
     }
 
     private void atribuicao(){
