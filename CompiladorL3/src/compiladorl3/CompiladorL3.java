@@ -18,7 +18,7 @@ public class CompiladorL3 {
         // TODO code application logic here
         Lexico lexico = new Lexico("CompiladorL3/src/compiladorl3/codigo.txt");
         Sintatico sintatico = new Sintatico(lexico);
-        sintatico.Iniciar();
+        sintatico.Programa();
       
         
     }

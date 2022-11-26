@@ -1,8 +1,5 @@
 package compiladorl3;
 
-import javax.imageio.plugins.tiff.GeoTIFFTagSet;
-import javax.management.RuntimeErrorException;
-
 public class Sintatico {
 
     private Lexico lexico;
@@ -12,44 +9,37 @@ public class Sintatico {
         this.lexico = lexico;
     }
 
-    public void Iniciar() {
+    public void Programa(){
         this.token = this.lexico.nextToken();
-        this.E();
-        if (this.token.getTipo() == Token.TIPO_FIM_CODIGO) {
-            System.out.println("O código tá massa! Arretado! Tu botou para torar");
+        if(!token.getLexema().equals("main")){
+            throw new RuntimeException("Oxe, cadê o main");
         }
-    }
 
-    public void E() {
-        this.Tipos();
-        this.El();
-    }
-
-    public void El() {
-        if (this.token.getTipo() == Token.TIPO_OPERADOR_ARITMETICO) {
-            this.Operadores();
-            this.Tipos();
-            this.El();
-        } else {
+        this.token = this.lexico.nextToken();
+        if(!token.getLexema().equals("(")){
+            throw new RuntimeException("Abre o parênteses do main cabra");
         }
-    }
 
-    public void Tipos() {
-        if (this.token.getTipo() == Token.TIPO_IDENTIFICADOR | this.token.getTipo() == Token.TIPO_INTEIRO
-                | this.token.getTipo() == Token.TIPO_REAL) {
-                    
-            this.token = this.lexico.nextToken();
+        this.token = this.lexico.nextToken();
+        if(!token.getLexema().equals("(")){
+            throw new RuntimeException("Fecha o parênteses do main cabra");
+        }
+
+        this.token = this.lexico.nextToken();
+        this.bloco();
+        if(this.token.getTipo() == Token.TIPO_FIM_CODIGO){
+            System.out.println("O código tá massa! Arretado! Tu botou pra torar");
         }else{
-            throw new RuntimeException("Oxe, era para ser um identificador ou número pertinho de " + this.token.getLexema());
+            throw new RuntimeException("Oxe, deu bronca perto do fim");
         }
+
+    
     }
 
-    public void Operadores(){
-        if(this.token.getTipo() == Token.TIPO_OPERADOR_ARITMETICO){
-            this.token = this.lexico.nextToken();
-        }else{
-            throw new RuntimeException("Oxe, era para ter um operador aritmético (+,-,/,*) pertinho de " + this.token.getLexema());
+    private void bloco() {
+        if(!token.getLexema().equals("{")){
+            throw new RuntimeException("Oxe, tava esperando um \"{\" pertinho de " + this.token.getLexema());
         }
+        this.token = this.lexico.nextToken();
     }
-
 }
