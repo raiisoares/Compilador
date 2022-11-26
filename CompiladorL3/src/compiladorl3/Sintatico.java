@@ -68,6 +68,7 @@ public class Sintatico {
             this.comandoGeral();
         }
     }
+
     private void comandos(){
         if (token.getLexema().equals("while"))
             this.iteracao();
@@ -83,12 +84,23 @@ public class Sintatico {
         this.token = this.lexico.nextToken();
         if(this.token.getTipo() == Token.TIPO_OPERADOR_ATRIBUCAO)
             this.atribuicao();
-        else if (token.getLexema().equals("{")){
-            this.bloco();
-            this.token = this.lexico.nextToken();
-            this.comandoGeral();
+        else if (token.getLexema().equals("(")){
+            this.funcao();
         } else
             throw new RuntimeException("Ta faltando um comando pertinho de " + this.token.getLexema());
+    }
+
+    private void funcao() {
+        this.token = this.lexico.nextToken();
+        if(!token.getLexema().equals(")"))
+            throw new RuntimeException("Fecha o parênteses da função cabra");
+
+        this.token = this.lexico.nextToken();
+        if (token.getLexema().equals("{"))
+            this.bloco();
+
+        this.token = this.lexico.nextToken();
+        this.comandoGeral();
     }
 
     private void iteracao() {
@@ -140,6 +152,8 @@ public class Sintatico {
         this.token = this.lexico.nextToken();
         this.comandoGeral();
     }
+
+
 
     private void expArit(){
         this.token = this.lexico.nextToken();

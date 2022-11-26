@@ -15,7 +15,7 @@ main (){
 
      char b;
 
-     func {
+     func() {
          if(b>a){
                a = 10 + 1;
              } else {
