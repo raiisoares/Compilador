@@ -9,7 +9,7 @@ public class Sintatico {
         this.lexico = lexico;
     }
 
-    public void Programa(){
+    public void Sintatico(){
         this.token = this.lexico.nextToken();
         if(!token.getLexema().equals("main")){
             throw new RuntimeException("Oxe, cadê o main");
@@ -21,7 +21,7 @@ public class Sintatico {
         }
 
         this.token = this.lexico.nextToken();
-        if(!token.getLexema().equals("(")){
+        if(!token.getLexema().equals(")")){
             throw new RuntimeException("Fecha o parênteses do main cabra");
         }
 
@@ -32,8 +32,6 @@ public class Sintatico {
         }else{
             throw new RuntimeException("Oxe, deu bronca perto do fim");
         }
-
-    
     }
 
     private void bloco() {
@@ -41,5 +39,26 @@ public class Sintatico {
             throw new RuntimeException("Oxe, tava esperando um \"{\" pertinho de " + this.token.getLexema());
         }
         this.token = this.lexico.nextToken();
+
+        if(token.getLexema().equals("int") || token.getLexema().equals("float") || token.getLexema().equals("char"))
+            this.declaracaoVar();
+//        else if (token.getLexema().equals("while") || token.getLexema().equals("if") || this.token.getTipo() == Token.TIPO_IDENTIFICADOR )
+//            this.comando();
+    }
+
+    private void declaracaoVar() {
+        this.token = this.lexico.nextToken();
+        if (this.token.getTipo() != Token.TIPO_IDENTIFICADOR) {
+            throw new RuntimeException("Tu vacilou na declaração de variável pertinho de " + this.token.getLexema());
+        }
+
+        this.token = this.lexico.nextToken();
+        if (!this.token.getLexema().equals(";"))
+            throw new RuntimeException("Tu vacilou na declaração de variável pertinho de " + this.token.getLexema());
+    }
+
+
+    private void comando(){
+
     }
 }
