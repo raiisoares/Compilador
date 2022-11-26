@@ -29,11 +29,7 @@ public class Sintatico {
         this.bloco();
 
         this.token = this.lexico.nextToken();
-        if(this.token.getTipo() == Token.TIPO_FIM_CODIGO){
-            System.out.println("O código tá massa! Arretado! Tu botou pra torar");
-        }else{
-            throw new RuntimeException("Oxe, deu bronca perto do fim");
-        }
+        this.fimDePrograma();
     }
 
     private void bloco() {
@@ -45,7 +41,7 @@ public class Sintatico {
         if(token.getLexema().equals("int") || token.getLexema().equals("float") || token.getLexema().equals("char"))
             this.declaracaoVar();
         else if (token.getLexema().equals("while") || token.getLexema().equals("if") || this.token.getTipo() == Token.TIPO_IDENTIFICADOR )
-            this.comando();
+            this.comandos();
 
         this.token = this.lexico.nextToken();
         if(!token.getLexema().equals("}")){
@@ -66,11 +62,19 @@ public class Sintatico {
     }
 
 
-    private void comando(){
+    private void comandos(){
         if (token.getLexema().equals("while"))
             this.iteracao();
-        if(this.token.getTipo() == Token.TIPO_IDENTIFICADOR){
+        else if(this.token.getTipo() == Token.TIPO_IDENTIFICADOR){
             this.comandosBasicos();
+        }
+        else if(token.getLexema().equals("if")) {
+            this.condicional();
+//            this.token = this.lexico.nextToken();
+//            if (token.getLexema().equals("else")) {
+//                this.token = this.lexico.nextToken();
+//                this.bloco();
+//            }
         }
     }
 
@@ -80,22 +84,40 @@ public class Sintatico {
             this.atribuicao();
         else if (token.getLexema().equals("{"))
             this.bloco();
+        else
+            throw new RuntimeException("Ta faltando um comando pertinho de " + this.token.getLexema());
     }
 
     private void iteracao() {
         this.token = this.lexico.nextToken();
-        if(!token.getLexema().equals("(")){
+        if(!token.getLexema().equals("("))
             throw new RuntimeException("Abre o parênteses do while cabra");
-        }
+
+        this.expRelacional();
+
+        if(!token.getLexema().equals(")"))
+            throw new RuntimeException("Fecha o parênteses do while cabra");
+
+    }
+
+    private void condicional() {
+        this.token = this.lexico.nextToken();
+        if(!token.getLexema().equals("("))
+            throw new RuntimeException("Abre o parênteses do if cabra");
+
+        this.expRelacional();
+
+        if(!token.getLexema().equals(")"))
+            throw new RuntimeException("Fecha o parênteses do if cabra");
 
         this.token = this.lexico.nextToken();
-        if(!token.getLexema().equals(")")){
-            throw new RuntimeException("Fecha o parênteses do while cabra");
-        }
+        this.bloco();
     }
 
     private void atribuicao(){
         this.expArit();
+        if (!this.token.getLexema().equals(";"))
+            throw new RuntimeException("Tu vacilou na atribuição pertinho de " + this.token.getLexema());
     }
 
     private void expArit(){
@@ -105,10 +127,21 @@ public class Sintatico {
             this.token = this.lexico.nextToken();
             if (this.token.getLexema().equals("+") || this.token.getLexema().equals("-") || this.token.getLexema().equals("*") || this.token.getLexema().equals("/"))
                 this.expArit();
-            else if (!this.token.getLexema().equals(";"))
-                throw new RuntimeException("Tu vacilou na expressão aritimetica pertinho de " + this.token.getLexema());
         }
-        else
-            throw new RuntimeException("Tu vacilou na expressão aritimetica pertinho de " + this.token.getLexema());
+    }
+
+    private void expRelacional(){
+        this.expArit();
+        if (this.token.getTipo() != Token.TIPO_OPERADOR_RELACIONAL)
+            throw new RuntimeException("Tu vacilou na expressão relacional pertinho de " + this.token.getLexema());
+        this.expArit();
+    }
+
+    private void fimDePrograma(){
+        if(this.token.getTipo() == Token.TIPO_FIM_CODIGO){
+            System.out.println("O código tá massa! Arretado! Tu botou pra torar");
+        }else{
+            throw new RuntimeException("Oxe, deu bronca perto do fim");
+        }
     }
 }
