@@ -1,11 +1,32 @@
-    float b;
-    while(a>b) {
-        a = a + 1;
-    }
+msg de erro:
 
-    if(b>a){
-      a = 10 + 1;
-    } else {
-         a = 20 + 1;
-    }
-    char b;
+    throw new RuntimeException("Oxe, cadê o main");
+
+    throw new RuntimeException("Abre o parênteses do main cabra" );
+
+    throw new RuntimeException("Fecha o parênteses do main cabra");
+
+    throw new RuntimeException("Oxe, tava esperando um \"{\" pertinho de " + this.token.getLexema());
+
+    throw new RuntimeException("Oxe, tava esperando um \"}\" pertinho de " + this.token.getLexema());
+
+    throw new RuntimeException("Tu vacilou na declaração de variável pertinho de " + this.token.getLexema());
+
+    throw new RuntimeException("Ta faltando um comando pertinho de " + this.token.getLexema());
+
+    throw new RuntimeException("Fecha o parênteses da função danado");
+
+    throw new RuntimeException("Abre o parênteses do while meu vei");
+
+    throw new RuntimeException("Fecha o parênteses do while meu vei");
+
+    throw new RuntimeException("Abre o parênteses do if cabra");
+
+    throw new RuntimeException("Fecha o parênteses do if cabra");
+
+    throw new RuntimeException("Tu vacilou na atribuição pertinho de " + this.token.getLexema());
+
+    throw new RuntimeException("Tu errou na expressão relacional ali pertinho de " + this.token.getLexema());
+
+    throw new RuntimeException("Oxe, deu bronca perto do fim");
+

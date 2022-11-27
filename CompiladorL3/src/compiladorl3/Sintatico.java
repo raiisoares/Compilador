@@ -17,7 +17,7 @@ public class Sintatico {
 
         this.token = this.lexico.nextToken();
         if(!token.getLexema().equals("(")){
-            throw new RuntimeException("Abre o parênteses do main cabra");
+            throw new RuntimeException("Abre o parênteses do main cabra" );
         }
 
         this.token = this.lexico.nextToken();
@@ -62,7 +62,10 @@ public class Sintatico {
         if (!this.token.getLexema().equals(";") && this.token.getTipo() != Token.TIPO_OPERADOR_ATRIBUCAO)
             throw new RuntimeException("Tu vacilou na declaração de variável pertinho de " + this.token.getLexema());
         else if (this.token.getTipo() == Token.TIPO_OPERADOR_ATRIBUCAO) {
-            this.atribuicao();
+            if (this.lexico.nextToken().toString().equals(";"))
+                throw new RuntimeException("Tu vacilou na atribuição pertinho de " + this.token.getLexema());
+            else
+                this.atribuicao();
         } else {
             this.token = this.lexico.nextToken();
             this.comandoGeral();
@@ -82,9 +85,9 @@ public class Sintatico {
 
     private void comandosBasicos() {
         this.token = this.lexico.nextToken();
-        if(this.token.getTipo() == Token.TIPO_OPERADOR_ATRIBUCAO)
+        if(this.token.getTipo() == Token.TIPO_OPERADOR_ATRIBUCAO){
             this.atribuicao();
-        else if (token.getLexema().equals("(")){
+        } else if (token.getLexema().equals("(")){
             this.funcao();
         } else
             throw new RuntimeException("Ta faltando um comando pertinho de " + this.token.getLexema());
@@ -93,7 +96,7 @@ public class Sintatico {
     private void funcao() {
         this.token = this.lexico.nextToken();
         if(!token.getLexema().equals(")"))
-            throw new RuntimeException("Fecha o parênteses da função cabra");
+            throw new RuntimeException("Fecha o parênteses da função danado");
 
         this.token = this.lexico.nextToken();
         if (token.getLexema().equals("{"))
@@ -106,12 +109,12 @@ public class Sintatico {
     private void iteracao() {
         this.token = this.lexico.nextToken();
         if(!token.getLexema().equals("("))
-            throw new RuntimeException("Abre o parênteses do while cabra");
+            throw new RuntimeException("Abre o parênteses do while meu vei");
 
         this.expRelacional();
 
         if(!token.getLexema().equals(")"))
-            throw new RuntimeException("Fecha o parênteses do while cabra");
+            throw new RuntimeException("Fecha o parênteses do while meu vei");
 
         this.token = this.lexico.nextToken();
         this.bloco();
@@ -145,7 +148,9 @@ public class Sintatico {
     }
 
     private void atribuicao(){
+        this.token = this.lexico.nextToken();
         this.expArit();
+
         if (!this.token.getLexema().equals(";"))
             throw new RuntimeException("Tu vacilou na atribuição pertinho de " + this.token.getLexema());
 
@@ -155,20 +160,27 @@ public class Sintatico {
 
 
 
+
     private void expArit(){
-        this.token = this.lexico.nextToken();
         if (this.token.getTipo() == Token.TIPO_REAL ||  this.token.getTipo() == Token.TIPO_INTEIRO ||
                 this.token.getTipo() == Token.TIPO_CHAR || this.token.getTipo() == Token.TIPO_IDENTIFICADOR){
             this.token = this.lexico.nextToken();
-            if (this.token.getLexema().equals("+") || this.token.getLexema().equals("-") || this.token.getLexema().equals("*") || this.token.getLexema().equals("/"))
-                this.expArit();
+            if (this.token.getLexema().equals("+") || this.token.getLexema().equals("-") || this.token.getLexema().equals("*")
+                    || this.token.getLexema().equals("/")) {
+                this.token = this.lexico.nextToken();
+                if (this.token.getLexema().equals(";"))
+                    throw new RuntimeException("Tu vacilou na atribuição pertinho de " + this.token.getLexema());
+            }
+            this.expArit();
         }
     }
 
     private void expRelacional(){
+        this.token = this.lexico.nextToken();
         this.expArit();
         if (this.token.getTipo() != Token.TIPO_OPERADOR_RELACIONAL)
-            throw new RuntimeException("Tu vacilou na expressão relacional pertinho de " + this.token.getLexema());
+            throw new RuntimeException("Tu errou na expressão relacional ali pertinho de " + this.token.getLexema());
+        this.token = this.lexico.nextToken();
         this.expArit();
     }
 

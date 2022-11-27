@@ -1,7 +1,7 @@
 main (){
     int a = 1;
-    a = a + 1;
-    float b;
+    a = ;
+    float v;
 
     while(a>b) {
        a = a + 1;
@@ -9,19 +9,18 @@ main (){
 
     if(b>a){
        a = 10 + 1;
-     } else {
-        a = 20 + 1;
-     }
+    } else {
+       a = 20 + 1;
+    }
 
-     char b;
+    char b = a;
 
-     func() {
-         if(b>a){
-               a = 10 + 1;
-             } else {
-                a = 20 + 1;
-             }
-     }
+    func() {
+         while(a==b) {
+               a = a + 1;
+            }
+    }
+
 }
 $
 
