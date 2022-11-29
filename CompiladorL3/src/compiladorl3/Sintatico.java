@@ -11,19 +11,16 @@ public class Sintatico {
 
     public void Sintatico(){
         this.token = this.lexico.nextToken();
-        if(!token.getLexema().equals("main")){
+        if(!token.getLexema().equals("main"))
             throw new RuntimeException("Oxe, cadê o main");
-        }
 
         this.token = this.lexico.nextToken();
-        if(!token.getLexema().equals("(")){
+        if(!token.getLexema().equals("("))
             throw new RuntimeException("Abre o parênteses do main cabra" );
-        }
 
         this.token = this.lexico.nextToken();
-        if(!token.getLexema().equals(")")){
+        if(!token.getLexema().equals(")"))
             throw new RuntimeException("Fecha o parênteses do main cabra");
-        }
 
         this.token = this.lexico.nextToken();
         this.bloco();
@@ -33,16 +30,14 @@ public class Sintatico {
     }
 
     private void bloco() {
-        if(!token.getLexema().equals("{")){
+        if(!token.getLexema().equals("{"))
             throw new RuntimeException("Oxe, tava esperando um \"{\" pertinho de " + this.token.getLexema());
-        }
 
         this.token = this.lexico.nextToken();
         this.comandoGeral();
 
-        if(!token.getLexema().equals("}")){
+        if(!token.getLexema().equals("}"))
             throw new RuntimeException("Oxe, tava esperando um \"}\" pertinho de " + this.token.getLexema());
-        }
     }
 
     private void comandoGeral(){
@@ -52,45 +47,39 @@ public class Sintatico {
             this.comandos();
     }
 
+    private void comandos(){
+        if (token.getLexema().equals("while"))
+            this.iteracao();
+        else if(token.getLexema().equals("if"))
+            this.condicional();
+        else if(this.token.getTipo() == Token.TIPO_IDENTIFICADOR)
+            this.comandosBasicos();
+    }
+
+    private void comandosBasicos() {
+        this.token = this.lexico.nextToken();
+        if(this.token.getTipo() == Token.TIPO_OPERADOR_ATRIBUCAO)
+            this.atribuicao();
+        else if (token.getLexema().equals("("))
+            this.funcao();
+        else
+            throw new RuntimeException("Ta faltando um comando pertinho de " + this.token.getLexema());
+    }
+
     private void declaracaoVar() {
         this.token = this.lexico.nextToken();
-        if (this.token.getTipo() != Token.TIPO_IDENTIFICADOR) {
+        if (this.token.getTipo() != Token.TIPO_IDENTIFICADOR)
             throw new RuntimeException("Tu vacilou na declaração de variável pertinho de " + this.token.getLexema());
-        }
 
         this.token = this.lexico.nextToken();
         if (!this.token.getLexema().equals(";") && this.token.getTipo() != Token.TIPO_OPERADOR_ATRIBUCAO)
             throw new RuntimeException("Tu vacilou na declaração de variável pertinho de " + this.token.getLexema());
         else if (this.token.getTipo() == Token.TIPO_OPERADOR_ATRIBUCAO) {
-            if (this.lexico.nextToken().toString().equals(";"))
-                throw new RuntimeException("Tu vacilou na atribuição pertinho de " + this.token.getLexema());
-            else
                 this.atribuicao();
         } else {
             this.token = this.lexico.nextToken();
             this.comandoGeral();
         }
-    }
-
-    private void comandos(){
-        if (token.getLexema().equals("while"))
-            this.iteracao();
-        else if(this.token.getTipo() == Token.TIPO_IDENTIFICADOR){
-            this.comandosBasicos();
-        }
-        else if(token.getLexema().equals("if")) {
-            this.condicional();
-        }
-    }
-
-    private void comandosBasicos() {
-        this.token = this.lexico.nextToken();
-        if(this.token.getTipo() == Token.TIPO_OPERADOR_ATRIBUCAO){
-            this.atribuicao();
-        } else if (token.getLexema().equals("(")){
-            this.funcao();
-        } else
-            throw new RuntimeException("Ta faltando um comando pertinho de " + this.token.getLexema());
     }
 
     private void funcao() {
@@ -142,13 +131,19 @@ public class Sintatico {
             this.bloco();
             this.token = this.lexico.nextToken();
             this.comandoGeral();
-        } else {
+        } else
             this.comandoGeral();
-        }
     }
 
     private void atribuicao(){
         this.token = this.lexico.nextToken();
+
+        if (this.token.getLexema().equals(";"))
+            throw new RuntimeException("Tu vacilou na atribuição pertinho de " + this.token.getLexema());
+
+        if (this.token.getLexema().equals("-"))
+            this.token = this.lexico.nextToken();
+
         this.expArit();
 
         if (!this.token.getLexema().equals(";"))
@@ -158,37 +153,43 @@ public class Sintatico {
         this.comandoGeral();
     }
 
-
-
-
     private void expArit(){
         if (this.token.getTipo() == Token.TIPO_REAL ||  this.token.getTipo() == Token.TIPO_INTEIRO ||
                 this.token.getTipo() == Token.TIPO_CHAR || this.token.getTipo() == Token.TIPO_IDENTIFICADOR){
+
             this.token = this.lexico.nextToken();
+
             if (this.token.getLexema().equals("+") || this.token.getLexema().equals("-") || this.token.getLexema().equals("*")
                     || this.token.getLexema().equals("/")) {
                 this.token = this.lexico.nextToken();
-                if (this.token.getLexema().equals(";"))
-                    throw new RuntimeException("Tu vacilou na atribuição pertinho de " + this.token.getLexema());
+                this.expArit();
             }
-            this.expArit();
         }
     }
 
     private void expRelacional(){
         this.token = this.lexico.nextToken();
+
+        if (this.token.getTipo() != Token.TIPO_REAL &&  this.token.getTipo() != Token.TIPO_INTEIRO &&
+                this.token.getTipo() != Token.TIPO_CHAR && this.token.getTipo() != Token.TIPO_IDENTIFICADOR)
+            throw new RuntimeException("Essa expressão relacional ali pertinho de " + this.token.getLexema() + " tá errada pô");
+
         this.expArit();
+
         if (this.token.getTipo() != Token.TIPO_OPERADOR_RELACIONAL)
-            throw new RuntimeException("Tu errou na expressão relacional ali pertinho de " + this.token.getLexema());
+            throw new RuntimeException("Essa expressão relacional ali pertinho de " + this.token.getLexema() + " tá errada pô");
+
         this.token = this.lexico.nextToken();
+        if(token.getLexema().equals(")"))
+            throw new RuntimeException("Essa expressão relacional ali pertinho de " + this.token.getLexema() + " tá errada pô");
+
         this.expArit();
     }
 
     private void fimDePrograma(){
-        if(this.token.getTipo() == Token.TIPO_FIM_CODIGO){
+        if(this.token.getTipo() == Token.TIPO_FIM_CODIGO)
             System.out.println("O código tá massa! Arretado! Tu botou pra torar");
-        }else{
+        else
             throw new RuntimeException("Oxe, deu bronca perto do fim");
-        }
     }
 }
