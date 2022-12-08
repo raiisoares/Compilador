@@ -8,7 +8,7 @@ Projeto das funções de análise léxica e sintática de um compilador, desenvo
 Desenvolvido pelos alunos @raiisoares e @RaulMiguelAS.
 
 ### Aplicação
-Dentro no arquivo ***CompiladorL3/src/compiladorl3/codigo.txt***, escrever o código que será analisado e em seguida executar o arquivo principal em ***CompiladorL3/src/compiladorl3/CompiladorL3.java*** para fazer a análise.
+Dentro do arquivo ***CompiladorL3/src/compiladorl3/codigo.txt***, escrever o código que será analisado e em seguida executar o arquivo principal em ***CompiladorL3/src/compiladorl3/CompiladorL3.java*** para fazer a análise.
 
 ### Funcionalidades
 - Declaração e atribuição de variáveis dos tipos int, float e char.
