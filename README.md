@@ -1,9 +1,9 @@
 # Compiladores
 
-## Análise léxica e semântica.
+## Análise léxica e sintática.
 
 #### PT-BR
-Projeto das funções de análise léxica e semântica de um compilador, desenvolvido em JAVA durante a disciplina de Compiladores no semestre 2022.2, na Universidade Católica de pernambuco.
+Projeto das funções de análise léxica e sintática de um compilador, desenvolvido em JAVA durante a disciplina de Compiladores no semestre 2022.2, na Universidade Católica de pernambuco.
 
 Desenvolvido pelos alunos @raiisoares e @RaulMiguelAS.
 
